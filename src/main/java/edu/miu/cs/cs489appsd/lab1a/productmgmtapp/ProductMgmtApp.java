@@ -2,6 +2,8 @@ package edu.miu.cs.cs489appsd.lab1a.productmgmtapp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import edu.miu.cs.cs489appsd.lab1a.productmgmtapp.model.Product;
 
 import java.math.BigDecimal;
@@ -37,6 +39,22 @@ public class ProductMgmtApp {
            );
         }
     public static void main(String[] args) throws JsonProcessingException {
-           System.out.println(Arrays.toString(products));
+            System.out.println("Printed in JSON Format");
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            String json = objectMapper.writeValueAsString(products);
+            System.out.println(json);
+
+            System.out.println("-------------------------------");
+
+            System.out.println("Printed in XML Format");
+            XmlMapper xmlMapper = new XmlMapper();
+            xmlMapper.registerModule(new JavaTimeModule());
+            String xml = xmlMapper.writeValueAsString(products);
+            System.out.println(xml);
+
+
+            System.out.println("-------------------------------");
+
     }
 }

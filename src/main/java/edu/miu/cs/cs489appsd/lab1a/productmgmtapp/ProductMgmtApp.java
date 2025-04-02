@@ -2,10 +2,14 @@ package edu.miu.cs.cs489appsd.lab1a.productmgmtapp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import edu.miu.cs.cs489appsd.lab1a.productmgmtapp.model.Product;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -38,11 +42,11 @@ public class ProductMgmtApp {
                    new BigDecimal("2.99")
            );
         }
-    public static void main(String[] args) throws JsonProcessingException {
+    public static void main(String[] args) throws IOException {
             System.out.println("Printed in JSON Format");
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
-            String json = objectMapper.writeValueAsString(products);
+            String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(products);
             System.out.println(json);
 
             System.out.println("-------------------------------");
@@ -50,11 +54,23 @@ public class ProductMgmtApp {
             System.out.println("Printed in XML Format");
             XmlMapper xmlMapper = new XmlMapper();
             xmlMapper.registerModule(new JavaTimeModule());
-            String xml = xmlMapper.writeValueAsString(products);
+            String xml = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(products);
             System.out.println(xml);
 
 
             System.out.println("-------------------------------");
+
+            System.out.println("Printed in CSV Format");
+            CsvMapper csvMapper = new CsvMapper();
+            csvMapper.registerModule(new JavaTimeModule());
+            CsvSchema schema = csvMapper.schemaFor(Product.class).withHeader();  // withHeader() to add header row
+            StringWriter stringWriter = new StringWriter();
+
+            // Serialize the array of products to CSV format
+            csvMapper.writerFor(Product[].class).with(schema).withDefaultPrettyPrinter().writeValue(stringWriter, products);
+
+            // Print CSV content to console
+            System.out.println(stringWriter.toString());
 
     }
 }

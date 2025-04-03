@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Comparator;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -43,6 +44,7 @@ public class ProductMgmtApp {
            );
         }
     public static void main(String[] args) throws IOException {
+            Arrays.sort(products, Comparator.comparingInt(Product::getQuantityInStock).reversed());
             System.out.println("Printed in JSON Format");
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());

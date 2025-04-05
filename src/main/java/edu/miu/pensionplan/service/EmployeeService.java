@@ -52,8 +52,8 @@ public class EmployeeService {
             return LocalDate.of(year, 7, 1);
         } else if (month.getValue() <= 9) {
             return LocalDate.of(year, 10, 1);
-        } else {
+        } else
             return LocalDate.of(year + 1, 1, 1);
-        }
+
     }
 }

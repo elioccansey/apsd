@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "lab1b" ]
+    branches: [ lab1b ]
   pull_request:
-    branches: [ "lab1b" ]
+    branches: [ lab1b ]
 
 jobs:
   build:
@@ -21,11 +21,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn clean install
-
-      - name: Archive build artifacts
-        if: success()
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          name: build-output
-          path: target/
+        run: mvn -B package --file pom.xml

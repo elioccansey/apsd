@@ -44,7 +44,7 @@ public class ProductMgmtApp {
            );
         }
     public static void main(String[] args) throws IOException {
-            Arrays.sort(products, Comparator.comparingInt(Product::getQuantityInStock).reversed());
+            Arrays.sort(products, Comparator.comparingDouble((Product p) -> p.getUnitPrice().doubleValue()).reversed() );
             System.out.println("Printed in JSON Format");
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
